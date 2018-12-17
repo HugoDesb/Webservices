@@ -4,7 +4,8 @@ var uuidv4 = require("uuid/v4");
 
 var bodyParser = require('body-parser');
 
-var dataTaskLayer = require('./repo/dataLayer.js');
+var dataLayer = require('./repo/dataLayer.js');
+var dataDocument = require('./repo/dataDocumentSILO.js')
 
 var request = require('request-json');
 var client = request.createClient('http://localhost:8100/');
@@ -71,14 +72,16 @@ app.post('/getTaskSet/:username', function(req, res){
     });
 });
 
-app.get('/search/:query', function(req, response){
+app.post('/search/author', function(request, response){
     var data = {
-        q: req.params.query
+        q: req.body.query
     };
-    console.log('https://api.archives-ouvertes.fr/search/?q='+req.params.query);
-    client.get('https://api.archives-ouvertes.fr/search/?q='+req.params.query, function(err, res, body) {
-        response.send(res.body);
-    });
+})
+
+app.post('/search/docs', function(req, res){
+    dataDocument.getDocs(req.body.query, function(docSet){
+        res.send(docSet);
+    })
 })
 
 app.post('/findById', function(req,res){
