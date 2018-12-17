@@ -63,5 +63,18 @@ todoApp.factory('todoService',['$http',function($http){
             });
     };
 
+    todoService.search = function(data){
+       
+       
+        return $http.post(adresseServer+, JSON.stringify({recherche: data})).then(function(res) {
+            
+            return res.data;
+        });
+
+       
+    };
+
+
+
     return server;
 }]);

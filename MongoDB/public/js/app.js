@@ -1,6 +1,39 @@
-var todoApp = angular.module("todoApp", []);
+var AppHAL = angular.module("AppHAL", []);
 
-todoApp.controller("todoListCtrl",["$scope", "$http", 'todoService', function($scope, $http, todoService){
+app.filter('searchFor', function(){
+
+	// All filters must return a function. The first parameter
+	// is the data that is to be filtered, and the second is an
+	// argument that may be passed with a colon (searchFor:searchString)
+
+	return function(arr, searchString){
+
+		if(!searchString){
+			return arr;
+		}
+
+		var result = [];
+
+		searchString = searchString.toLowerCase();
+
+		// Using the forEach helper method to loop through the array
+		angular.forEach(arr, function(item){
+
+			if(item.title.toLowerCase().indexOf(searchString) !== -1){
+				result.push(item);
+			}
+
+		});
+
+		return result;
+	};
+
+});
+
+
+
+
+todoApp.controller("searchHAL",["$scope", "$http", 'todoService', function($scope, $http, todoService){
 
     $scope.taskList = [];
 
@@ -71,10 +104,26 @@ todoApp.controller("todoListCtrl",["$scope", "$http", 'todoService', function($s
         $scope.load();
     });
 
+    $scope.search = function(){
+        todoService.search($scope.stringSearch, function(res){
+
+            if(res){
+                console.log(res);
+                if(res.success){
+                    
+                }else{
+                    console.log("search not ok");
+
+                }
+            }
+
+        });
+    }
+
 
 }]);
 
-todoApp.controller("connexionCtrl", ["$scope", "$http", 'todoService', function($scope, $http, todoService){
+todoApp.controller("connexionCtrl", ["$scope", "$http", 'SearchService', function($scope, $http,searchService){
 
     $scope.addAccount = function(){
         // Ajout dans la liste
