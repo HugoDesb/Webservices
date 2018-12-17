@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link rel="manifest" href="manifest.json">
+
+    <!-- un-comment this code to enable service worker
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(() => console.log('service worker installed'))
+          .catch(err => console.log('Error', err));
+      }
+    </script>-->
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+
+  </head>
+  <body ng-app="todoApp">
+
+    <ion-pane>
+      <ion-header-bar class="bar-stable">
+        <h1 class="title">My App</h1>
+      </ion-header-bar>
+      <ion-content>
+
+        <section ng-controller="pageCtrl">
+          <div id="connexionPage" ng-class="{hideFromSight: connected}">
+              <div ng-controller="connexionCtrl">
+                  <form>
+                      <input type="text" ng-model="username" placeholder="Username"/>
+                      <input type="password" ng-model="password" placeholder="Password"/>
+                      <button ng-click="connect()">Connexion</button>
+                      <button ng-click="addAccount()">Inscription</button>
+                      <span class="errorMsg" ng-class="{hideFromSight:!error}">Une erreur est survenue</span>
+                  </form>
+              </div>
+          </div>
+
+          <div id="TodoPage" ng-class="{hideFromSight: !connected}">
+              <div ng-controller="todoListCtrl">
+                  <form ng-submit="addTask()">
+                      <input type="text" ng-model="taskInputName" placeholder="Décrire ici la tâche a effectuer"/>
+                      <button type="submit">Valider</button>
+                  </form>
+
+
+                  <div>
+                      <h2>Mes Todos ({{howManyDone()}} sur {{taskList.length}})</h2>
+                      <div ng-repeat="task in taskList track by $index">
+                          <input type="checkbox" ng-model="task.done" ng-click="update(task)"/>
+                          <span ng-class="{done:task.done}">{{ task.name }}</span>
+                          <button ng-click="delete(task)">Supprimer</button>
+                      </div>
+                  </div>
+
+                  <div>
+                      <button ng-click="deconnect()">Se déconnecter</button>
+                  </div>
+
+              </div>
+          </div>
+      </section>
+
+
+          <script src="js/controllers/todoListCtrl.js"></script>
+          <script src="js/controllers/pageCtrl.js"></script>
+          <script src="js/controllers/connexionCtrl.js"></script>
+          <script src="js/services/todoService.js"></script>
+      </ion-content>
+    </ion-pane>
+  </body>
+</html>
