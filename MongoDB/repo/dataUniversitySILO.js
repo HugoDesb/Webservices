@@ -3,7 +3,7 @@ var client = request.createClient('http://localhost:8100/');
 
 module.exports = {
     searchUniversity: function(query, cb){
-        client.get('http://api.archives-ouvertes.fr/search/?q=instStructName_s:'+query+'&fl=title_s,authFullName_s,uri_s,instStructName_s,labStructName_s',function(err, res, body) {
+        client.get('http://api.archives-ouvertes.fr/search/?q=instStructName_t:'+query+'&fl=title_s,authFullName_s,uri_s,instStructName_s,labStructName_s',function(err, res, body) {
             data = JSON.parse(res.body);
             response = data.response.docs;
             cb(response);
