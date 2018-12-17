@@ -7,10 +7,10 @@ var bodyParser = require('body-parser');
 var dataTaskLayer = require('./repo/dataLayer.js');
 
 var request = require('request-json');
-var client = request.createClient('http://localhost:8095');
+var client = request.createClient('http://localhost:8100/');
 
 var app = express();
-var port = 8095;
+var port = 8100;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -71,8 +71,14 @@ app.post('/getTaskSet/:username', function(req, res){
     });
 });
 
-app.get('/search/:query', function(req, res){
-
+app.get('/search/:query', function(req, response){
+    var data = {
+        q: req.params.query
+    };
+    console.log('https://api.archives-ouvertes.fr/search/?q='+req.params.query);
+    client.get('https://api.archives-ouvertes.fr/search/?q='+req.params.query, function(err, res, body) {
+        response.send(res.body);
+    });
 })
 
 app.post('/findById', function(req,res){
@@ -150,13 +156,7 @@ app.post('/deleteTask', function(req,res){
     }
 });
 
-
-
-
-
-
-
-console.log("Server started port 8095");
+console.log("Server started port 8100");
 
 app.listen(port);
 
