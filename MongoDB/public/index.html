@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html ng-app="todoApp">
+<html ng-app="AppHAL">
     <head>
         <meta charset="utf-8" content="text/html" http-equiv="Content-Type"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -11,44 +11,34 @@
 
     <body>
 
-        <section ng-controller="pageCtrl">
-            <div id="connexionPage" ng-class="{hideFromSight: connected}">
-                <div ng-controller="connexionCtrl">
-                    <form>
-                        <input type="text" ng-model="username" placeholder="Username"/>
-                        <input type="password" ng-model="password" placeholder="Password"/>
-                        <button ng-click="connect()">Connexion</button>
-                        <button ng-click="addAccount()">Inscription</button>
-                        <span class="errorMsg" ng-class="{hideFromSight:!error}">Une erreur est survenue</span>
-                    </form>
-                </div>
-            </div>
-
-            <div id="TodoPage" ng-class="{hideFromSight: !connected}">
-                <div ng-controller="todoListCtrl">
-                    <form ng-submit="addTask()">
-                        <input type="text" ng-model="taskInputName" placeholder="Décrire ici la tâche a effectuer"/>
-                        <button type="submit">Valider</button>
-                    </form>
-
-
-                    <div>
-                        <h2>Mes Todos ({{howManyDone()}} sur {{taskList.length}})</h2>
-                        <div ng-repeat="task in taskList track by $index">
-                            <input type="checkbox" ng-model="task.done" ng-click="update(task)"/>
-                            <span ng-class="{done:task.done}">{{ task.name }}</span>
-                            <button ng-click="delete(task)">Supprimer</button>
-                        </div>
+        
+        <section ng-controller="searchHAL">
+                <div>
+                        <h2> Moteur de Recherche</h2>
                     </div>
-
                     <div>
-                        <button ng-click="deconnect()">Se déconnecter</button>
+                            <form>
+                                    <input type="text" ng-model="search" placeholder="Search"/>
+                                    <input type="checkbox" id="laboratoire" name="Laboratoire">
+                                    <label for="laboratoire">Laboratoire</label>
+                                    <input type="checkbox" id="universite" name="Université">
+                                    <label for="universite">Université</label>
+                                    <input type="checkbox" id="CoAuteur" name="Co-auteur">
+                                    <label for="CoAuteur">Co-auteur</label>
+            
+                                </form>
                     </div>
+        
+                    <div>
+                        <form>
+                            <button type="submit">Search</button>
+        
+                        </form>
+                    </div>
+        
 
-                </div>
-            </div>
         </section>
-
+           
 
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
