@@ -4,7 +4,10 @@ var uuidv4 = require("uuid/v4");
 
 var bodyParser = require('body-parser');
 
-var dataTaskLayer = require('./repo/dataTaskLayer.js');
+var dataTaskLayer = require('./repo/dataLayer.js');
+
+var request = require('request-json');
+var client = request.createClient('http://localhost:8095');
 
 var app = express();
 var port = 8095;
@@ -14,20 +17,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-//Add headers for Ionic
-app.use(function(req, res, next){
-    // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8100');
-
-    //Request methods you wish to allow
-    res.setHeader("Access-Control-Allow-Methods", "POST");
-
-    //Request headers you wish to allow
-    res.setHeader("Access-Control-Allow-Headers", "X-requested-with,content-type");
-
-    next();
-
-});
 
 app.post('/addAccount', function (req, res) {
     if(!req.body.username || !req.body.password){
@@ -81,6 +70,10 @@ app.post('/getTaskSet/:username', function(req, res){
         res.send(obj);
     });
 });
+
+app.get('/search/:query', function(req, res){
+
+})
 
 app.post('/findById', function(req,res){
     if(!req.body.id){
