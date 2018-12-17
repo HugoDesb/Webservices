@@ -41,7 +41,8 @@ var client = request.createClient('http://localhost:8100/');
 
 module.exports = {
     searchDocs: function(query, cb){
-        client.get('https://api.archives-ouvertes.fr/search/?q='+query,function(err, res, body) {
+        
+        client.get('http://api.archives-ouvertes.fr/search/?q=title_t:'+query+'&fl=title_s,authFullName_s,uri_s,instStructName_s,labStructName_s',function(err, res, body) {
             data = JSON.parse(res.body);
             response = data.response.docs;
             cb(response);
