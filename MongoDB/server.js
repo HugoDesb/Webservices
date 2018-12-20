@@ -32,7 +32,6 @@ app.post('/search/university', function(req, res){
 
 app.post('/search/author', function(req, res){
     dataAuthorLayer.searchAuthor(req.body.query, function(authorSet){
-        
         var auteurs = [];
         if(authorSet[0] != null){
             var monAuteur = authorSet[0].authFullName_s[0];
@@ -47,7 +46,8 @@ app.post('/search/author', function(req, res){
                 }
             });
         }
-        auteurs.shift();
+        //auteurs.shift();
+        console.log(auteurs);
         res.send(auteurs);
     });
 });

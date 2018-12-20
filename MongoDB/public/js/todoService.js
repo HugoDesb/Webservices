@@ -1,76 +1,61 @@
-todoApp.factory('todoService',['$http',function($http){
+AppHAL.factory('todoService',['$http',function($http){
     var server = {};
 
-    server.addAccount = function(username, password, cb){
-      var req = {
-          username:username,
-          password:password
-      } ;
-      $http.post('/addAccount', req)
-          .then(function(res){
-              cb(res.data);
-          });
-    };
 
-    server.findAccount = function(username, password, cb){
-        var req = {
-            username:username,
-            password:password
-        } ;
-        $http.post('/findAccount', req)
-            .then(function(res){
-                cb(res.data);
-            });
-    };
 
-    server.addTask = function (username, name, cb) {
-        var req = {
-            name:name,
-            username:username
-        };
-        console.log(req);
-        $http.post('/addTask', req)
-            .then(function (res) {
-                cb(res);
-            });
-    };
-
-    server.deleteTask = function(id, cb){
-        var req = {id: id};
-        $http.post('/deleteTask', req)
-            .then(function(res){
-                cb(res);
-            });
-    };
-
-    server.updateTask = function(task, cb){
-        var req = {
-            id:task._id,
-            name:task.name,
-            done:task.done
-        };
-        $http.post('/updateTask', req)
-            .then(function(res){
-                cb(res);
-            });
-    };
-
-    server.getTaskSet = function (username, cb) {
-        $http.post('/getTaskSet/'+username)
-            .then(function (resp) {
-                console.log(resp.data.taskSet);
-                cb(resp.data.taskSet);
-            });
-    };
-
-    todoService.search = function(data){
+    server.searchLab = function(query,cb){
        
-       
-        return $http.post(adresseServer+, JSON.stringify({recherche: data})).then(function(res) {
-            
-            return res.data;
+        var req = {
+            query:query
+        }
+        $http.post('/search/lab', req)
+        .then(function(res){
+            console.log("serviceLab");
+            cb(res.data);
         });
+        
+       
+    };
 
+    server.searchUniversity = function(query,cb){
+       
+        var req = {
+            query:query
+        }
+        $http.post('/search/university', req)
+        .then(function(res){
+            console.log("serviceUniv");
+            cb(res.data);
+        });
+        
+       
+    };
+
+    server.searchAuthor = function(query,cb){
+       
+        var req = {
+            query:query
+        }
+        $http.post('/search/author', req)
+        .then(function(res){
+            console.log("serviceAut");
+            cb(res.data);
+        });
+        
+       
+    };
+
+    server.searchDocs = function(query,cb){
+       
+        var req = {
+            query:query
+        }
+        $http.post('/search/docs', req)
+        .then(function(res){
+            console.log("serviceDocs");
+            cb(res.data);
+        });
+        
        
     };
 

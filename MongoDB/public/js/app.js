@@ -1,41 +1,90 @@
 var AppHAL = angular.module("AppHAL", []);
 
-app.filter('searchFor', function(){
 
-	// All filters must return a function. The first parameter
-	// is the data that is to be filtered, and the second is an
-	// argument that may be passed with a colon (searchFor:searchString)
-
-	return function(arr, searchString){
-
-		if(!searchString){
-			return arr;
-		}
-
-		var result = [];
-
-		searchString = searchString.toLowerCase();
-
-		// Using the forEach helper method to loop through the array
-		angular.forEach(arr, function(item){
-
-			if(item.title.toLowerCase().indexOf(searchString) !== -1){
-				result.push(item);
-			}
-
-		});
-
-		return result;
-	};
-
-});
-
-
-
-
-todoApp.controller("searchHAL",["$scope", "$http", 'todoService', function($scope, $http, todoService){
+AppHAL.controller("searchHAL",["$scope", "$http", 'todoService', function($scope, $http, todoService){
 
     $scope.taskList = [];
+    $scope.type = "docs";
+    $scope.publication = false;
+    $scope.auteur = false;
+
+    $scope.typeLab = function(){
+
+        $scope.type = "lab";
+    }
+    $scope.typeUniv = function(){
+
+        $scope.type = "univ";
+    }
+    $scope.typeAut = function(){
+
+        $scope.type = "aut";
+    }
+
+    $scope.typeDocs = function(){
+
+        $scope.type = "docs";
+    }
+
+
+    $scope.search = function(){
+        
+        switch($scope.type){
+
+            case "lab":
+                todoService.searchLab($scope.searchBox,function(res){
+                    console.log("ok");
+                    $scope.infos = res;
+                    console.log($scope.infos);
+                });
+                break;
+            
+            case "univ":
+                todoService.searchUniversity($scope.searchBox,function(res){
+                    console.log("ok");
+                    $scope.infos = res;
+                    console.log($scope.infos);
+                });
+                break;
+
+            case "aut":
+            todoService.searchAuthor($scope.searchBox,function(res){
+                console.log("ok");
+                $scope.infos = res;
+                console.log($scope.infos);
+            });
+            break;
+
+        default:
+        todoService.searchDocs($scope.searchBox,function(res){
+            console.log("ok");
+            $scope.infos = res;
+            console.log($scope.infos);
+        });
+        break;
+
+        }
+        
+
+    };
+    
+
+
+
+   $scope.showHideP = function(param){
+console.log("coucou");
+ $scope.publication = param;
+ $scope.auteur = !param;
+}
+
+$scope.showHideA = function(param){
+    $scope.auteur = param;
+    $scope.publication = !param
+   }
+
+
+
+
 
     $scope.howManyDone = function(){
         count = 0;
@@ -104,26 +153,13 @@ todoApp.controller("searchHAL",["$scope", "$http", 'todoService', function($scop
         $scope.load();
     });
 
-    $scope.search = function(){
-        todoService.search($scope.stringSearch, function(res){
+    
 
-            if(res){
-                console.log(res);
-                if(res.success){
-                    
-                }else{
-                    console.log("search not ok");
-
-                }
-            }
-
-        });
-    }
 
 
 }]);
 
-todoApp.controller("connexionCtrl", ["$scope", "$http", 'SearchService', function($scope, $http,searchService){
+AppHAL.controller("connexionCtrl", ["$scope", "$http", 'SearchService', function($scope, $http,searchService){
 
     $scope.addAccount = function(){
         // Ajout dans la liste
@@ -164,7 +200,7 @@ todoApp.controller("connexionCtrl", ["$scope", "$http", 'SearchService', functio
     }
 }]);
 
-todoApp.controller("pageCtrl",["$scope",function ($scope) {
+AppHAL.controller("pageCtrl",["$scope",function ($scope) {
 
     $scope.connected = false;
     $scope.username = "";
