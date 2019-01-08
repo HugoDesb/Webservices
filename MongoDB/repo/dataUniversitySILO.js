@@ -44,5 +44,21 @@ module.exports = {
             });
             cb(listeElement);
         });
+    },
+
+    getUniversity : function(query,cb){
+        model.find({
+            "instName": {"$regex": query, "$options":"i"}
+        }).lean().exec(function(err,res){
+            if(err) {
+                throw err;
+            } else {
+                if(res.length != 0){
+                    cb(res);
+                } else {
+                    module.exports.searchUniversity(query,cb);
+                }
+            }
+        })
     }
 };

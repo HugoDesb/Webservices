@@ -25,7 +25,7 @@ app.post('/search/lab', function(req, res){
 });
 
 app.post('/search/university', function(req, res){
-    dataUniversityLayer.searchUniversity(req.body.query, function(publicationSet){
+    dataUniversityLayer.getUniversity(req.body.query, function(publicationSet){
         res.send(publicationSet);
     })
 });

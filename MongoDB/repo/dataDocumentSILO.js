@@ -51,11 +51,11 @@ mongoose.connect('mongodb://localhost/Search', function(err) {
 
 /// declare schema user
 var DocSchema = Schema({
-    titre:String,
-    author : String,
-    uri : String,
-    instName: String,
-    labName: String
+        titre:String,
+        author : [String],
+        uri : String,
+        instName: [String],
+        labName: [String]
   });
   
 var model = mongoose.model('docsSearch', DocSchema);
@@ -88,10 +88,10 @@ module.exports = {
         
     },
 
-    getDocs :function(query,cb){
-        model.find({
-            "titre": {"$regex": query, "$options":"i"}
-        }).lean().exec(function(err,res){
+    getDocs : function(query,cb){
+        model.find(
+            {"titre": {"$regex": query, "$options":"i"}},
+            'titre author uri instName labName').lean().exec(function(err,res){
             if(err) {
                 throw err;
             } else {
