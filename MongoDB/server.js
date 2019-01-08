@@ -53,10 +53,11 @@ app.post('/search/author', function(req, res){
 });
 
 app.post('/search/docs', function(req, res){
+    console.log(req.body.query);
     dataDocumentLayer.getDocs(req.body.query, function(publicationSet){
         res.send(publicationSet);
     })
-})
+})  
 
 console.log("Server started port 8100");
 

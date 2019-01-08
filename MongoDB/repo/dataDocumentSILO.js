@@ -95,10 +95,10 @@ module.exports = {
             if(err) {
                 throw err;
             } else {
-                if(res){
+                if(res.length != 0){
                     cb(res);
                 } else {
-                    cb(searchDocs(query,cb));
+                    module.exports.searchDocs(query,cb);
                 }
             }
         })
