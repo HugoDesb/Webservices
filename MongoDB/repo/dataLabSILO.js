@@ -13,10 +13,10 @@ mongoose.connect('mongodb://localhost/Search', function(err) {
 /// declare schema user
 var LabSchema = Schema({
     titre:String,
-    author : String,
+    author : [String],
     uri : String,
-    instName: String,
-    labName: String
+    instName: [String],
+    labName: [String]
   });
   
 var model = mongoose.model('labSearch', LabSchema);
@@ -45,5 +45,21 @@ module.exports = {
                 });
             cb(listeElement);
         });
+    },
+
+    getLab : function(query,cb){
+        model.find(
+            {"labName": {"$regex": query, "$options":"i"}},
+            'titre author uri instName labName').lean().exec(function(err,res){
+            if(err) {
+                throw err;
+            } else {
+                if(res.length != 0){
+                    cb(res);
+                } else {
+                    module.exports.searchLab(query,cb);
+                }
+            }
+        })
     }
 };

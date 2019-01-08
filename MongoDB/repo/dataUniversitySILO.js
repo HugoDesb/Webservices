@@ -13,10 +13,10 @@ mongoose.connect('mongodb://localhost/Search', function(err) {
 /// declare schema user
 var UniversitySchema = Schema({
     titre:String,
-    author : String,
+    author : [String],
     uri : String,
-    instName: String,
-    labName: String
+    instName: [String],
+    labName: [String]
   });
   
 var model = mongoose.model('universitySearch', UniversitySchema);
@@ -47,9 +47,9 @@ module.exports = {
     },
 
     getUniversity : function(query,cb){
-        model.find({
-            "instName": {"$regex": query, "$options":"i"}
-        }).lean().exec(function(err,res){
+        model.find(
+            {"instName": {"$regex": query, "$options":"i"}},
+            'titre author uri instName labName').lean().exec(function(err,res){
             if(err) {
                 throw err;
             } else {
