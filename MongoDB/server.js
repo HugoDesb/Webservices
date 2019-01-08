@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.post('/search/lab', function(req, res){
-    dataLabLayer.searchLab(req.body.query, function(publicationSet){
+    dataLabLayer.getLab(req.body.query, function(publicationSet){
         res.send(publicationSet);
     })
 });
