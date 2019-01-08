@@ -68,9 +68,6 @@ AppHAL.controller("searchHAL",["$scope", "$http", 'todoService', function($scope
 
     };
     
-
-
-
    $scope.showHideP = function(param){
 console.log("coucou");
  $scope.publication = param;

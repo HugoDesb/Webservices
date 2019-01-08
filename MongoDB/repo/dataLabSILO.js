@@ -1,6 +1,9 @@
 var request = require('request-json');
 var client = request.createClient('http://localhost:8100/');
 
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+
 mongoose.connect('mongodb://localhost/Search', function(err) {
     if(err) {throw err;}
     else
