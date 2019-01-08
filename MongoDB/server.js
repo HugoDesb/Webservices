@@ -53,7 +53,7 @@ app.post('/search/author', function(req, res){
 });
 
 app.post('/search/docs', function(req, res){
-    dataDocumentLayer.searchDocs(req.body.query, function(publicationSet){
+    dataDocumentLayer.getDocs(req.body.query, function(publicationSet){
         res.send(publicationSet);
     })
 })

@@ -34,19 +34,34 @@
                         <label>Docs</label>
                     
                         
-                    
+                    <div class="row">
+                        <table classe="stripped responsive-table">
+                            <thead>
+                                <tr>
+                                    <th ng-show="'titre' in info">Titre</th>
+                                    <th ng-show="'author' in info">Author</th>
+                                    <th ng-show="'uri' in info">URI</th>
+                                    <th ng-show="'instName' in info">Institut</th>
+                                    <th ng-show="'labName' in info">Laboratoire</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="info in infos">
 
-                    <div ng-repeat="info in infos">
+                                        <td>Titre : {{ info.titre }} </td>
+                                        <td> Author : {{ info.author}} </td>
+                                        <td> URI : {{ info.uri}} </td>
+                                        <td> instName : {{ info.instName}} </td>
+                                        <td> labName : {{ info.labName}} </td>
 
-                        <span>Titre : {{ info.title_s }} </span>
+                
+                
+                                    </tr>
+                            </tbody>
+                        </table>
                     </div>
 
-                    
-
-
-                    
-                    
-                    
+                   
         <div>
 
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

@@ -75,9 +75,33 @@ module.exports = {
                 labName : element.labStructName_s
                 };
             listeElement.push(elt);
+            var docsToSave = new model(elt);
+            docsToSave.save(function(err){
+            if(err){
+                throw err;
+            }
+        });
 
             });
             cb(listeElement);
         });
+
+        
+    },
+
+    getDocs :function(query,cb){
+        model.find({
+            "titre": {"$regex": query, "$options":"i"}
+        }).lean().exec(function(err,res){
+            if(err) {
+                throw err;
+            } else {
+                if(res){
+                    cb(res);
+                } else {
+                    cb(searchDocs(query,cb));
+                }
+            }
+        })
     }
 };
