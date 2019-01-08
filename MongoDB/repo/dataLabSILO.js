@@ -11,15 +11,15 @@ mongoose.connect('mongodb://localhost/Search', function(err) {
 });
 
 /// declare schema user
-var UserSchema = Schema({
+var LabSchema = Schema({
     titre:String,
-    author : String,
+    author : [String],
     uri : String,
-    instName: String,
-    labName: String
+    instName: [String],
+    labName: [String]
   });
   
-var model = mongoose.model('labSearch', UserSchema);
+var model = mongoose.model('labSearch', LabSchema);
 
 
 module.exports = {
@@ -35,10 +35,31 @@ module.exports = {
                 instName: element.instStructName_s,
                 labName : element.labStructName_s
                 };
-            listeElement.push(elt);
-
-            });
+                listeElement.push(elt);
+                var lab = new model(elt);
+                lab.save(function(err){
+                    if(err){
+                        throw err;
+                    }
+                })
+                });
             cb(listeElement);
         });
+    },
+
+    getLab : function(query,cb){
+        model.find(
+            {"labName": {"$regex": query, "$options":"i"}},
+            'titre author uri instName labName').lean().exec(function(err,res){
+            if(err) {
+                throw err;
+            } else {
+                if(res.length != 0){
+                    cb(res);
+                } else {
+                    module.exports.searchLab(query,cb);
+                }
+            }
+        })
     }
 };

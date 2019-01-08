@@ -50,15 +50,15 @@ mongoose.connect('mongodb://localhost/Search', function(err) {
 });
 
 /// declare schema user
-var UserSchema = Schema({
-    titre:String,
-    author : String,
-    uri : String,
-    instName: String,
-    labName: String
+var DocSchema = Schema({
+        titre:String,
+        author : [String],
+        uri : String,
+        instName: [String],
+        labName: [String]
   });
   
-var model = mongoose.model('docsSearch', UserSchema);
+var model = mongoose.model('docsSearch', DocSchema);
 
 module.exports = {
     searchDocs: function(query, cb){
@@ -77,29 +77,28 @@ module.exports = {
             listeElement.push(elt);
             var docsToSave = new model(elt);
             docsToSave.save(function(err){
-            if(err){
-                throw err;
-            }
-        });
-
+                if(err){
+                    throw err;
+                }
             });
+        });
             cb(listeElement);
         });
 
         
     },
 
-    getDocs :function(query,cb){
-        model.find({
-            "titre": {"$regex": query, "$options":"i"}
-        }).lean().exec(function(err,res){
+    getDocs : function(query,cb){
+        model.find(
+            {"titre": {"$regex": query, "$options":"i"}},
+            'titre author uri instName labName').lean().exec(function(err,res){
             if(err) {
                 throw err;
             } else {
-                if(res){
+                if(res.length != 0){
                     cb(res);
                 } else {
-                    
+                    module.exports.searchDocs(query,cb);
                 }
             }
         })

@@ -19,13 +19,13 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.post('/search/lab', function(req, res){
-    dataLabLayer.searchLab(req.body.query, function(publicationSet){
+    dataLabLayer.getLab(req.body.query, function(publicationSet){
         res.send(publicationSet);
     })
 });
 
 app.post('/search/university', function(req, res){
-    dataUniversityLayer.searchUniversity(req.body.query, function(publicationSet){
+    dataUniversityLayer.getUniversity(req.body.query, function(publicationSet){
         res.send(publicationSet);
     })
 });
@@ -58,10 +58,11 @@ app.post('/search/author', function(req, res){
 });
 
 app.post('/search/docs', function(req, res){
+    console.log(req.body.query);
     dataDocumentLayer.getDocs(req.body.query, function(publicationSet){
         res.send(publicationSet);
     })
-})
+})  
 
 console.log("Server started port 8100");
 

@@ -13,12 +13,11 @@ mongoose.connect('mongodb://localhost/Search', function(err) {
 });
 
 /// declare schema user
-var UserSchema = Schema({
-    author : String,
-    coauthor : String
-  });
+var AuthorSchema = Schema({
+    author: String
+});
   
-var model = mongoose.model('authorSearch', UserSchema);
+var model = mongoose.model('authorSearch', AuthorSchema);
 
 
 module.exports = {
@@ -36,7 +35,14 @@ module.exports = {
                 let elt = {
                 coauthor : element.authFullName_s
                 };
-            listeElement.push(elt);
+                listeElement.push(elt);
+                var author = new model(elt);
+                author.save(function(err){
+                    if(err){
+                        throw err;
+                    }
+                });
+
 
             });
             cb(data.response.docs);

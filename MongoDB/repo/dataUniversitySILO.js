@@ -11,15 +11,15 @@ mongoose.connect('mongodb://localhost/Search', function(err) {
 });
 
 /// declare schema user
-var UserSchema = Schema({
+var UniversitySchema = Schema({
     titre:String,
-    author : String,
+    author : [String],
     uri : String,
-    instName: String,
-    labName: String
+    instName: [String],
+    labName: [String]
   });
   
-var model = mongoose.model('universitySearch', UserSchema);
+var model = mongoose.model('universitySearch', UniversitySchema);
 
 module.exports = {
     searchUniversity: function(query, cb){
@@ -35,9 +35,30 @@ module.exports = {
                 labName : element.labStructName_s
                 };
             listeElement.push(elt);
-
+            var uni = new model(elt);
+                uni.save(function(err){
+                    if(err){
+                        throw err;
+                    }
+                })
             });
             cb(listeElement);
         });
+    },
+
+    getUniversity : function(query,cb){
+        model.find(
+            {"instName": {"$regex": query, "$options":"i"}},
+            'titre author uri instName labName').lean().exec(function(err,res){
+            if(err) {
+                throw err;
+            } else {
+                if(res.length != 0){
+                    cb(res);
+                } else {
+                    module.exports.searchUniversity(query,cb);
+                }
+            }
+        })
     }
 };
