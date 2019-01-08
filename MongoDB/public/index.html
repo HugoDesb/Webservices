@@ -34,25 +34,27 @@
                         <label>Docs</label>
                     
                         
-                    <div class="row">
+                    <div>
                         <table classe="stripped responsive-table">
                             <thead>
                                 <tr>
-                                    <th ng-show="'titre' in info">Titre</th>
-                                    <th ng-show="'author' in info">Author</th>
-                                    <th ng-show="'uri' in info">URI</th>
-                                    <th ng-show="'instName' in info">Institut</th>
-                                    <th ng-show="'labName' in info">Laboratoire</th>
+                                    <th>Titre</th>
+                                    <th>Author</th>
+                                    <th>Co-Author</th>
+                                    <th>URI</th>
+                                    <th>Institut</th>
+                                    <th>Laboratoire</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr ng-repeat="info in infos">
 
-                                        <td>Titre : {{ info.titre }} </td>
-                                        <td> Author : {{ info.author}} </td>
-                                        <td> URI : {{ info.uri}} </td>
-                                        <td> instName : {{ info.instName}} </td>
-                                        <td> labName : {{ info.labName}} </td>
+                                        <td ng-show="info.titre"> {{ info.titre }} </td>
+                                        <td ng-show="info.author">  {{ info.author}} </td>
+                                        <td ng-show="info.coauthor">  {{ info.coauthor}} </td>
+                                        <td ng-show="info.uri"> {{ info.uri}} </td>
+                                        <td ng-show="info.instName"> {{ info.instName}} </td>
+                                        <td ng-show="info.labName"> {{ info.labName}} </td>
 
                 
                 

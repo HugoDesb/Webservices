@@ -40,14 +40,19 @@ app.post('/search/author', function(req, res){
                 if(doc.authFullName_s.indexOf(monAuteur)>=0){
                     doc.authFullName_s.forEach(auth =>{
                         if(auth != monAuteur && auteurs.indexOf(auth)<0){
-                            auteurs.push(auth);
+                            auteurs.push({coauthor: auth});
                         }
                     });
                 }
             });
         }
-        //auteurs.shift();
+        /*
         console.log(auteurs);
+        auteurs.forEach(function(element){
+            res.append()
+        
+        });
+        */
         res.send(auteurs);
     });
 });

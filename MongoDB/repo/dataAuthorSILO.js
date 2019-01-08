@@ -14,8 +14,8 @@ mongoose.connect('mongodb://localhost/Search', function(err) {
 
 /// declare schema user
 var UserSchema = Schema({
-    
-    author: String
+    author : String,
+    coauthor : String
   });
   
 var model = mongoose.model('authorSearch', UserSchema);
@@ -34,15 +34,13 @@ module.exports = {
             let listeElement =[];
             data.response.docs.forEach(element => {
                 let elt = {
-
-                author : element.authFullName_s
+                coauthor : element.authFullName_s
                 };
             listeElement.push(elt);
 
             });
             cb(data.response.docs);
         });
-        
         
     }
         

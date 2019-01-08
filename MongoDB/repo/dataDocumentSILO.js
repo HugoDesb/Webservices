@@ -99,7 +99,7 @@ module.exports = {
                 if(res){
                     cb(res);
                 } else {
-                    cb(searchDocs(query,cb));
+                    
                 }
             }
         })
