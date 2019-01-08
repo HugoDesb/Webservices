@@ -11,7 +11,7 @@ mongoose.connect('mongodb://localhost/Search', function(err) {
 });
 
 /// declare schema user
-var UserSchema = Schema({
+var LabSchema = Schema({
     titre:String,
     author : String,
     uri : String,
@@ -19,7 +19,7 @@ var UserSchema = Schema({
     labName: String
   });
   
-var model = mongoose.model('labSearch', UserSchema);
+var model = mongoose.model('labSearch', LabSchema);
 
 
 module.exports = {
@@ -35,9 +35,14 @@ module.exports = {
                 instName: element.instStructName_s,
                 labName : element.labStructName_s
                 };
-            listeElement.push(elt);
-
-            });
+                listeElement.push(elt);
+                var lab = new model(elt);
+                lab.save(function(err){
+                    if(err){
+                        throw err;
+                    }
+                })
+                });
             cb(listeElement);
         });
     }

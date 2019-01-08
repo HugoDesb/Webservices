@@ -11,7 +11,7 @@ mongoose.connect('mongodb://localhost/Search', function(err) {
 });
 
 /// declare schema user
-var UserSchema = Schema({
+var UniversitySchema = Schema({
     titre:String,
     author : String,
     uri : String,
@@ -19,7 +19,7 @@ var UserSchema = Schema({
     labName: String
   });
   
-var model = mongoose.model('universitySearch', UserSchema);
+var model = mongoose.model('universitySearch', UniversitySchema);
 
 module.exports = {
     searchUniversity: function(query, cb){
@@ -35,7 +35,12 @@ module.exports = {
                 labName : element.labStructName_s
                 };
             listeElement.push(elt);
-
+            var uni = new model(elt);
+                uni.save(function(err){
+                    if(err){
+                        throw err;
+                    }
+                })
             });
             cb(listeElement);
         });
