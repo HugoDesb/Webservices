@@ -6,8 +6,7 @@ var bodyParser = require('body-parser');
 
 var dataDocumentLayer = require('./repo/dataDocumentSILO.js');
 var dataAuthorLayer = require('./repo/dataAuthorSILO.js');
-var dataUniversityLayer = require('./repo/dataUniversitySILO.js');
-var dataLabLayer = require('./repo/dataLabSILO.js');
+
 
 
 var app = express();
@@ -19,13 +18,13 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.post('/search/lab', function(req, res){
-    dataLabLayer.getLab(req.body.query, function(publicationSet){
+    dataDocumentLayer.getByLab(req.body.query, function(publicationSet){
         res.send(publicationSet);
     })
 });
 
 app.post('/search/university', function(req, res){
-    dataUniversityLayer.getUniversity(req.body.query, function(publicationSet){
+    dataDocumentLayer.getByUniversity(req.body.query, function(publicationSet){
         res.send(publicationSet);
     })
 });
@@ -59,7 +58,7 @@ app.post('/search/author', function(req, res){
 
 app.post('/search/docs', function(req, res){
     console.log(req.body.query);
-    dataDocumentLayer.getDocs(req.body.query, function(publicationSet){
+    dataDocumentLayer.getByTitle(req.body.query, function(publicationSet){
         res.send(publicationSet);
     })
 })  
