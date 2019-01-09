@@ -30,29 +30,8 @@ app.post('/search/university', function(req, res){
 });
 
 app.post('/search/author', function(req, res){
-    dataAuthorLayer.searchAuthor(req.body.query, function(authorSet){
-        var auteurs = [];
-        if(authorSet[0] != null){
-            var monAuteur = authorSet[0].authFullName_s[0];
-            
-            authorSet.forEach(doc => {
-                if(doc.authFullName_s.indexOf(monAuteur)>=0){
-                    doc.authFullName_s.forEach(auth =>{
-                        if(auth != monAuteur && auteurs.indexOf(auth)<0){
-                            auteurs.push({coauthor: auth});
-                        }
-                    });
-                }
-            });
-        }
-        /*
-        console.log(auteurs);
-        auteurs.forEach(function(element){
-            res.append()
-        
-        });
-        */
-        res.send(auteurs);
+    dataAuthorLayer.getAuthor(req.body.query, function(authorSet){
+        res.send(authorSet);
     });
 });
 

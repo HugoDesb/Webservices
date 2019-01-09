@@ -14,40 +14,60 @@ mongoose.connect('mongodb://localhost/Search', function(err) {
 
 /// declare schema user
 var AuthorSchema = Schema({
-    author: String
+    authorFullName: {type:String, unique:true},
+    coAuthorFullName: [String]
 });
   
 var model = mongoose.model('authorSearch', AuthorSchema);
 
+function addCoAuthor(author, coauthor){
+    model.updateOne(
+        { "authorFullName": author },
+        { $addToSet: { "coAuthorFullName": coauthor } },
+        { upsert: true },
+        function(err){
+            if(err){
+                throw err;
+            }
+        }
+     )
+};
+
 
 module.exports = {
-
-
-
-    searchAuthor: function(query, cb){
-
-        
+    searchAuthorOnHAL: function(query,cb){
         client.get('http://api.archives-ouvertes.fr/search/?q=authFullName_t:'+query+'&fl=authFullName_s',function(err, res, body) {
             data = JSON.parse(res.body);
 
-            let listeElement =[];
-            data.response.docs.forEach(element => {
-                let elt = {
-                coauthor : element.authFullName_s
-                };
-                listeElement.push(elt);
-                var author = new model(elt);
-                author.save(function(err){
-                    if(err){
-                        throw err;
-                    }
+            data.response.docs.forEach(doc => {
+                doc.authFullName_s.forEach(authorA => {                    
+                    doc.authFullName_s.forEach(authorB => {
+                        if(authorA != authorB){
+                            addCoAuthor(authorA, authorB);
+                        }
+                    });
                 });
-
-
             });
-            cb(data.response.docs);
+
+            module.exports.getAuthor(query, cb);
         });
         
+    },
+
+    getAuthor: function(query, cb){
+        model.find(
+            {"authorFullName": {"$regex":query, "$options": "i"}},
+            'authorFullName coAuthorFullName').lean().exec(function(err,res){
+            if(err) {
+                throw err;
+            } else {
+                if(res.length != 0){
+                    cb(res);
+                } else {
+                    module.exports.searchAuthorOnHAL(query,cb);
+                }
+            }
+        })
     }
         
     
