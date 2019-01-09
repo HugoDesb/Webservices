@@ -1,0 +1,29 @@
+{
+  "name": "solr-project",
+  "version": "1.0.0",
+  "description": "Projet du cours Web services et Recommandation",
+  "main": "MongoDB/server.js",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "mongoose": "^5.4.2",
+    "path": "^0.12.7",
+    "request-json": "^0.6.4",
+    "uuid": "^3.3.2",
+    "xml2json": "^0.11.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HugoDesb/Webservices.git"
+  },
+  "author": "DESBIOLLES ALLAM GAUTIN",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HugoDesb/Webservices/issues"
+  },
+  "homepage": "https://github.com/HugoDesb/Webservices#readme"
+}
